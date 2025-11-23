@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Bienvenido - Talleres</title>
+    <link rel="stylesheet" href="Style.css">
+    <style>
+        /* Estilo simple para el nombre del usuario en el menú */
+        .nombre-usuario {
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-left: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container top">
+            <h1>Talleres en puente alto</h1>
+            <nav aria-label="Principal">
+                <a href="#talleres">Talleres</a>
+                
+                <span class="nombre-usuario">USUARIO DE PRUEBA (cerrar sesión)</span>
+                
+                <a href="#contacto">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="info">
+                <h2 id="hero-title">Inscripciones abiertas para talleres presenciales y online</h2>
+                <p class="muted">Bienvenido de nuevo. Explora los talleres disponibles para inscribirte.</p>
+                <div style="margin-top:12px">
+                    <button class="cta" onclick="document.getElementById('talleres').scrollIntoView({behavior:'smooth'})">Ver talleres</button>
+                </div>
+            </div>
+            <div style="width:240px;text-align:center">
+                 <div style="background:#e6f2ff; height:140px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#2b6cb0; font-weight:600;">
+                    Talleres
+                 </div>
+            </div>
+        </section>
+
+        <section id="talleres" aria-labelledby="talleres-title">
+            <h2 style="margin-top:22px" id="talleres-title">Talleres disponibles</h2>
+            <div class="grid" role="list">
+                <article class="card" role="listitem">
+                    <h3>Natación</h3>
+                    <p>Aprende a nadar de manera segura y mejorar tu calidad de vida</p>
+                    <p class="muted">Duración: 6 sesiones · Modalidad: Presencial</p>
+                    <button onclick="alert('¡Inscripción exitosa!')">Inscribirse</button>
+                </article>
+
+                <article class="card" role="listitem">
+                    <h3>Cocina francesa</h3>
+                    <p>Aprende a preparar los mejores platos de la gastronomía francesa.</p>
+                    <p class="muted">Duración: 8 sesiones · Modalidad: presencial</p>
+                    <button onclick="alert('¡Inscripción exitosa!')">Inscribirse</button>
+                </article>
+
+                <article class="card" role="listitem">
+                    <h3>Carpintería creativa</h3>
+                    <p>Técnicas básicas de carpintería para construir muebles pequeños y medianos.</p>
+                    <p class="muted">Duración: 5 sesiones · Modalidad: Presencial</p>
+                    <button onclick="alert('¡Inscripción exitosa!')">Inscribirse</button>
+                </article>
+            </div>
+        </section>
+
+        <section id="contacto" style="margin-top:20px" aria-labelledby="contacto-title">
+            <h2 id="contacto-title">Contacto</h2>
+            <p class="muted">Sistema de demostración.</p>
+        </section>
+
+        <footer>
+            <small>Maqueta de página de inscripciones a talleres — Sesión Iniciada</small>
+        </footer>
+    </main>
+    
+    <script>
+        // Opción extra: Si quieres cerrar sesión al hacer clic en el nombre
+        document.querySelector('.nombre-usuario').addEventListener('click', () => {
+             if(confirm('¿Cerrar sesión?')) {
+                 window.location.href = 'talleres.html';
+             }
+        });
+    </script>
+</body>
+</html>

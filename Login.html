@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="Style.css">
+    <style>
+        body { padding: 24px; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .card { width: 100%; max-width: 400px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .btn { background: #06b6d4; color: #042a2b; width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        .btn:hover { background: #0891aa; color: #fff; }
+        input { margin-bottom: 15px; }
+        h1 { text-align: center; margin-bottom: 5px; color: #102a43; }
+        .muted { text-align: center; display: block; margin-bottom: 20px; font-size: 14px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <main class="card">
+        <h1>Bienvenido</h1>
+        <span class="muted">Ingresa tus credenciales para continuar</span>
+
+        <form id="loginForm">
+            <label>Correo electrónico</label>
+            <input id="email" type="email" required placeholder="Cualquier@cosa.wn" value="Cualquier@cosa.wn">
+
+            <label>Contraseña</label>
+            <input id="password" type="password" required placeholder="•••••" value="12345">
+
+            <button class="btn" type="submit">Ingresar</button>
+            
+            <div style="text-align: center; margin-top: 15px; font-size: 14px;">
+                <a href="talleres.html" style="color: #2b6cb0; text-decoration: none;">← Volver al inicio</a>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const user = email.value.trim().toLowerCase();
+            const pass = password.value;
+
+            // Si el usuario y la contraseña son "admin", ir a Administrador.html
+            if (user === 'admin@admin.com' && pass === 'admin') {
+                window.location.href = 'Administrador.html';
+            } else {
+                // Redirección por defecto para otros usuarios
+                window.location.href = 'usuarioIngresado.html';
+            }
+        });
+    </script>
+</body>
+</html>

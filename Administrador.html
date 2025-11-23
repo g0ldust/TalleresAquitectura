@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Administrador - Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header role="banner">
+        <div class="container header-inner">
+            <h1>Panel de administrador</h1>
+            <div class="muted">Sesión: Administrador</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="grid" role="main">
+            <nav aria-label="Navegación principal">
+                <a class="btn" href="inventario.html">Inventario</a>
+                <a class="btn" href="gestion-salas.html">Gestión de salas</a>
+                <a class="btn" href="gestion-talleres.html">Gestión de talleres</a>
+                <a class="btn" href="postulaciones.html">Postulaciones</a>
+
+                <hr class="sep">
+                <a class="btn secondary" href="usuarioingresado.html">Volver a usuario</a>
+                <button class="btn secondary" onclick="cerrarSesion()">Cerrar sesión</button>
+            </nav>
+
+            <main>
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h2>Postulaciones recientes</h2>
+                            <div class="muted">Revise las postulaciones y acepte o rechace según corresponda.</div>
+                        </div>
+                        <div class="actions">
+                            <button class="action-btn" onclick="location.href='postulaciones.html'">Ver todas</button>
+                            <button class="action-btn ghost" onclick="location.href='gestion-talleres.html'">Gestionar talleres</button>
+                        </div>
+                    </div>
+
+                    <table aria-describedby="tabla-postulaciones">
+                        <thead>
+                            <tr>
+                                <th>Solicitante</th>
+                                <th>Taller</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="postulaciones-body"></tbody>
+                            <tr data-id="1">
+                                <td>María Pérez</td>
+                                <td>Arquitectura sustentable</td>
+                                <td>2025-12-02</td>
+                                <td><span class="status" id="status-1">Pendiente</span></td>
+                                <td>
+                                    <button class="btn-sm btn-accept" onclick="aceptar(1)">Aceptar</button>
+                                    <button class="btn-sm btn-reject" onclick="rechazar(1)">Rechazar</button>
+                                </td>
+                            </tr>
+                            <tr data-id="2">
+                                <td>Carlos Gómez</td>
+                                <td>Diseño de espacios</td>
+                                <td>2025-12-05</td>
+                                <td><span class="status" id="status-2">Pendiente</span></td>
+                                <td>
+                                    <button class="btn-sm btn-accept" onclick="aceptar(2)">Aceptar</button>
+                                    <button class="btn-sm btn-reject" onclick="rechazar(2)">Rechazar</button>
+                                </td>
+                            </tr>
+                            <tr data-id="3">
+                                <td>Ana Ruiz</td>
+                                <td>Materiales y construcción</td>
+                                <td>2025-12-12</td>
+                                <td><span class="status" id="status-3">Pendiente</span></td>
+                                <td>
+                                    <button class="btn-sm btn-accept" onclick="aceptar(3)">Aceptar</button>
+                                    <button class="btn-sm btn-reject" onclick="rechazar(3)">Rechazar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <footer>
+                    Administrador • Talleres Arquitectura — Página creada para gestión interna
+                </footer>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Simulación de acciones: actualizar estado en la interfaz
+        function aceptar(id){
+            if(!confirm('¿Aceptar esta postulación?')) return;
+            const status = document.getElementById('status-' + id);
+            if(!status) return;
+            status.textContent = 'Aceptada';
+            status.className = 'status ok';
+            disableRowButtons(id);
+        }
+
+        function rechazar(id){
+            if(!confirm('¿Rechazar esta postulación?')) return;
+            const status = document.getElementById('status-' + id);
+            if(!status) return;
+            status.textContent = 'Rechazada';
+            status.className = 'status rejected';
+            disableRowButtons(id);
+        }
+
+        function disableRowButtons(id){
+            const row = document.querySelector('tr[data-id="'+id+'"]');
+            if(!row) return;
+            const buttons = row.querySelectorAll('button');
+            buttons.forEach(b => b.disabled = true);
+            // opcional: añadir label de nota
+            const note = document.createElement('div');
+            note.className = 'note';
+            note.textContent = 'Acción registrada en el sistema.';
+            row.querySelector('td:last-child').appendChild(note);
+        }
+
+        function cerrarSesion(){
+            if(confirm('¿Cerrar sesión?')) location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

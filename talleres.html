@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Inscripción a Talleres — Maqueta</title>
     <link rel="stylesheet" href="Style.css">
+    <style>
+        /* Ajuste para que el nav se vea ordenado igual a tu imagen */
+        nav { display: flex; align-items: center; }
+    </style>
 </head>
 <body>
     <header>
@@ -12,57 +16,60 @@
             <h1>Talleres en puente alto</h1>
             <nav aria-label="Principal">
                 <a href="#talleres">Talleres</a>
-                <a href="Registro.html">Registrarse</a>
+                
+                <a href="Login.html" id="btn-login">Iniciar Sesión</a>
+                <a href="Registro.html" id="btn-registro">Registrarse</a>
+                
                 <a href="#contacto">Contacto</a>
             </nav>
         </div>
     </header>
 
     <main class="container">
-        <section class="hero" aria-labelledby="hero-title">
+        <section class="hero">
             <div class="info">
-                <h2 id="hero-title">Inscripciones abiertas para talleres presenciales y online</h2>
+                <h2>Inscripciones abiertas para talleres presenciales y online</h2>
                 <p class="muted">Explora los talleres disponibles y completa el formulario para registrarte. Esta maqueta guarda las inscripciones en tu navegador (localStorage) como demostración.</p>
                 <div style="margin-top:12px">
                     <button class="cta" onclick="document.getElementById('talleres').scrollIntoView({behavior:'smooth'})">Ver talleres</button>
                 </div>
             </div>
             <div style="width:240px;text-align:center">
-                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='140'><rect width='100%' height='100%' fill='%23e6f2ff' rx='12'/><text x='50%' y='50%' font-size='18' text-anchor='middle' fill='%232b6cb0' dy='.3em'>Talleres</text></svg>" alt="Ilustración talleres" style="max-width:100%;border-radius:8px" />
+                 <div style="background:#e6f2ff; height:140px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#2b6cb0; font-weight:600;">
+                    Talleres
+                 </div>
             </div>
         </section>
 
-        <section id="talleres" aria-labelledby="talleres-title">
-            <h2 style="margin-top:22px" id="talleres-title">Talleres disponibles</h2>
-            <div class="grid" role="list">
-                <article class="card" role="listitem">
+        <section id="talleres" style="margin-top: 40px;">
+            <h2>Talleres disponibles</h2>
+            <div class="grid">
+                <article class="card">
                     <h3>Natación</h3>
                     <p>Aprende a nadar de manera segura y mejorar tu calidad de vida</p>
                     <p class="muted">Duración: 6 sesiones · Modalidad: Presencial</p>
-                    <button onclick="prefillForm('Natación')">Inscribirse</button>
+                    <button onclick="alert('Función de inscripción')">Inscribirse</button>
                 </article>
 
-                <article class="card" role="listitem">
+                <article class="card">
                     <h3>Cocina francesa</h3>
                     <p>Aprende a preparar los mejores platos de la gastronomía francesa.</p>
                     <p class="muted">Duración: 8 sesiones · Modalidad: presencial</p>
-                    <button onclick="prefillForm('Cocina francesa')">Inscribirse</button>
+                    <button onclick="alert('Función de inscripción')">Inscribirse</button>
                 </article>
 
-                <article class="card" role="listitem">
+                <article class="card">
                     <h3>Carpintería creativa</h3>
                     <p>Técnicas básicas de carpintería para construir muebles pequeños y medianos.</p>
                     <p class="muted">Duración: 5 sesiones · Modalidad: Presencial</p>
-                    <button onclick="prefillForm('Carpintería creativa')">Inscribirse</button>
+                    <button onclick="alert('Función de inscripción')">Inscribirse</button>
                 </article>
             </div>
         </section>
 
-      
-
-        <section id="contacto" style="margin-top:20px" aria-labelledby="contacto-title">
-            <h2 id="contacto-title">Contacto</h2>
-            <p class="muted">Este es un prototipo. Para integrar un sistema real de inscripciones, conecta el formulario a un backend o a servicios como Google Forms, Airtable o un endpoint propio.</p>
+        <section id="contacto" style="margin-top:40px">
+            <h2>Contacto</h2>
+            <p class="muted">Este es un prototipo. Para integrar un sistema real, conecta a un backend.</p>
         </section>
 
         <footer>
@@ -71,89 +78,32 @@
     </main>
 
     <script>
-        // Simple demo behavior: prefill form, save to localStorage and show feedback
-        function prefillForm(taller){
-            const input = document.getElementById('taller');
-            input.value = taller;
-            input.scrollIntoView({behavior:'smooth',block:'center'});
-            input.focus();
-        }
+        // --- SCRIPT QUE HACE LA MAGIA VISUAL ---
+        (function simularSesion(){
+            const usuario = localStorage.getItem('usuarioActivo');
+            const btnLogin = document.getElementById('btn-login');
+            const btnRegistro = document.getElementById('btn-registro');
 
-        function getInscripciones(){
-            try{
-                return JSON.parse(localStorage.getItem('inscripciones')||'[]');
-            }catch(e){ return [] }
-        }
+            if (usuario) {
+                // 1. ELIMINAMOS VISUALMENTE el botón "Registrarse"
+                if(btnRegistro) btnRegistro.style.display = 'none';
 
-        function saveInscripcion(data){
-            const arr = getInscripciones();
-            arr.unshift(Object.assign({ts:Date.now()}, data));
-            localStorage.setItem('inscripciones', JSON.stringify(arr.slice(0,50)));
-        }
-
-        function renderInscripciones(){
-            const list = document.getElementById('lista-inscripciones');
-            list.innerHTML = '';
-            const arr = getInscripciones();
-            if(arr.length === 0){
-                list.innerHTML = '<li class="muted">No hay inscripciones todavía.</li>';
-                return;
+                // 2. CAMBIAMOS el texto de "Iniciar Sesión" por el NOMBRE
+                if(btnLogin) {
+                    btnLogin.textContent = usuario; // Mostrará "USUARIO de PRUE-ba"
+                    btnLogin.href = "#";            // Desactiva el click
+                    btnLogin.style.textTransform = "uppercase"; // Asegura mayúsculas si quieres
+                    
+                    // (Opcional) Click para cerrar sesión y probar de nuevo
+                    btnLogin.onclick = () => {
+                        if(confirm("¿Cerrar sesión de prueba?")) {
+                            localStorage.removeItem('usuarioActivo');
+                            window.location.reload();
+                        }
+                    };
+                }
             }
-            arr.forEach(i=>{
-                const li = document.createElement('li');
-                const date = new Date(i.ts).toLocaleString();
-                li.textContent = `${i.nombre} — ${i.taller} (${i.email}) · ${date}`;
-                list.appendChild(li);
-            });
-        }
-
-        function handleSubmit(e){
-            e.preventDefault();
-            const f = e.target;
-            const nombre = f.nombre.value.trim();
-            const email = f.email.value.trim();
-            const taller = f.taller.value.trim();
-
-            if(!nombre || !email || !taller){
-                showStatus('Completa los campos obligatorios.', true);
-                return;
-            }
-
-            const data = {
-                nombre, email,
-                telefono: f.telefono.value.trim(),
-                taller,
-                fecha: f.fecha.value || null,
-                comentarios: f.comentarios.value.trim()
-            };
-
-            // Demo: save locally
-            saveInscripcion(data);
-            renderInscripciones();
-            f.reset();
-            showMessage('¡Inscripción registrada! (demo local)');
-            showStatus('', false);
-        }
-
-        function showStatus(msg, isError){
-            const s = document.getElementById('form-status');
-            s.textContent = msg;
-            s.style.color = isError ? '#9b1c2f' : 'inherit';
-        }
-
-        function showMessage(msg){
-            const area = document.getElementById('message-area');
-            area.innerHTML = `<div class="success">${escapeHtml(msg)}</div>`;
-            setTimeout(()=> area.innerHTML = '', 5000);
-        }
-
-        // small helper to avoid injecting raw HTML
-        function escapeHtml(str){
-            return String(str).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]});
-        }
-
-        // initialize
-        renderInscripciones();
+        })();
     </script>
 </body>
-</html></div>
+</html>
