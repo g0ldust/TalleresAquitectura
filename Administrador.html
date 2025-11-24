@@ -4,39 +4,74 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Administrador - Panel</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Style.css">
+    
+    <style>
+        /* ESTILOS ESPECÍFICOS PARA EL PANEL DE ADMINISTRADOR */
+        
+        /* Corrección para que los enlaces del menú sean visibles */
+        nav a { color: inherit; margin-left: 0; text-decoration: none; }
+
+        /* Estilos de botones (copiados de Style.css para asegurar consistencia) */
+        .btn { display:block; background: #0b63d6; color: #fff !important; padding: 10px 14px; border: none; border-radius: 6px; cursor: pointer; text-align: center; font-size: 14px; margin-bottom: 8px; }
+        .btn:hover { opacity: 0.9; }
+        .btn.secondary { background: #6b7280; }
+
+        /* Estructura del panel lateral */
+        .sidebar { padding-right: 20px; }
+        .sep { border: 0; border-top: 1px solid #e5e7eb; margin: 12px 0; }
+
+        /* Estilos de la tabla de postulaciones */
+        table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #e5e7eb; font-size: 14px; }
+        th { color: #6b7280; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        /* Header de la tarjeta */
+        .card-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; }
+        .action-btn { background: transparent; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+        .action-btn:hover { background: #f8fafc; }
+
+        /* Etiquetas de estado */
+        .status { padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; background: #f3f4f6; color: #374151; display: inline-block;}
+        .status.ok { background: #def7ec; color: #03543f; }
+        .status.rejected { background: #fde8e8; color: #9b1c1c; }
+
+        /* Botones pequeños de acción */
+        .btn-sm { padding: 6px 10px; font-size: 12px; border-radius: 4px; border: none; cursor: pointer; color: white; margin-right: 4px; }
+        .btn-accept { background: #10b981; }
+        .btn-reject { background: #ef4444; }
+        .btn-sm:disabled { opacity: 0.5; cursor: not-allowed; }
+    </style>
 </head>
 <body>
-    <header role="banner">
-        <div class="container header-inner">
+    <header>
+        <div class="container top">
             <h1>Panel de administrador</h1>
-            <div class="muted">Sesión: Administrador</div>
+            <div style="font-size: 14px; opacity: 0.9;">Sesión: Administrador</div>
         </div>
     </header>
 
-    <div class="container">
-        <div class="grid" role="main">
-            <nav aria-label="Navegación principal">
+    <div class="container" style="margin-top: 30px;">
+        <div class="grid" style="grid-template-columns: 200px 1fr; gap: 30px;">
+            
+            <nav aria-label="Navegación principal" class="sidebar">
                 <a class="btn" href="inventario.html">Inventario</a>
-                <a class="btn" href="gestion-salas.html">Gestión de salas</a>
-                <a class="btn" href="gestion-talleres.html">Gestión de talleres</a>
-                <a class="btn" href="postulaciones.html">Postulaciones</a>
+                
+                <a class="btn" href="#">Gestión de salas</a>
+                <a class="btn" href="#">Gestión de talleres</a>
+                <a class="btn" href="#">Postulaciones</a>
 
                 <hr class="sep">
-                <a class="btn secondary" href="usuarioingresado.html">Volver a usuario</a>
-                <button class="btn secondary" onclick="cerrarSesion()">Cerrar sesión</button>
+                <a class="btn secondary" href="usuarioIngresado.html">Volver a usuario</a>
+                <button class="btn secondary" style="width:100%" onclick="cerrarSesion()">Cerrar sesión</button>
             </nav>
 
             <main>
                 <div class="card">
                     <div class="card-header">
                         <div>
-                            <h2>Postulaciones recientes</h2>
-                            <div class="muted">Revise las postulaciones y acepte o rechace según corresponda.</div>
-                        </div>
-                        <div class="actions">
-                            <button class="action-btn" onclick="location.href='postulaciones.html'">Ver todas</button>
-                            <button class="action-btn ghost" onclick="location.href='gestion-talleres.html'">Gestionar talleres</button>
+                            <h2 style="margin:0 0 6px 0">Postulaciones recientes</h2>
+                            <div class="muted" style="margin:0">Gestione las solicitudes pendientes.</div>
                         </div>
                     </div>
 
@@ -50,7 +85,7 @@
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody id="postulaciones-body"></tbody>
+                        <tbody id="postulaciones-body">
                             <tr data-id="1">
                                 <td>María Pérez</td>
                                 <td>Arquitectura sustentable</td>
@@ -85,47 +120,46 @@
                     </table>
                 </div>
 
-                <footer>
-                    Administrador • Talleres Arquitectura — Página creada para gestión interna
+                <footer style="margin-top: 30px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+                    <small>Administrador • Talleres Arquitectura</small>
                 </footer>
             </main>
         </div>
     </div>
 
     <script>
-        // Simulación de acciones: actualizar estado en la interfaz
         function aceptar(id){
             if(!confirm('¿Aceptar esta postulación?')) return;
             const status = document.getElementById('status-' + id);
-            if(!status) return;
-            status.textContent = 'Aceptada';
-            status.className = 'status ok';
-            disableRowButtons(id);
+            if(status) {
+                status.textContent = 'Aceptada';
+                status.className = 'status ok';
+                disableRowButtons(id);
+            }
         }
 
         function rechazar(id){
             if(!confirm('¿Rechazar esta postulación?')) return;
             const status = document.getElementById('status-' + id);
-            if(!status) return;
-            status.textContent = 'Rechazada';
-            status.className = 'status rejected';
-            disableRowButtons(id);
+            if(status) {
+                status.textContent = 'Rechazada';
+                status.className = 'status rejected';
+                disableRowButtons(id);
+            }
         }
 
         function disableRowButtons(id){
             const row = document.querySelector('tr[data-id="'+id+'"]');
-            if(!row) return;
-            const buttons = row.querySelectorAll('button');
-            buttons.forEach(b => b.disabled = true);
-            // opcional: añadir label de nota
-            const note = document.createElement('div');
-            note.className = 'note';
-            note.textContent = 'Acción registrada en el sistema.';
-            row.querySelector('td:last-child').appendChild(note);
+            if(row) {
+                const buttons = row.querySelectorAll('button');
+                buttons.forEach(b => b.disabled = true);
+            }
         }
 
         function cerrarSesion(){
-            if(confirm('¿Cerrar sesión?')) location.href = 'index.html';
+            if(confirm('¿Cerrar sesión de administrador?')) {
+                window.location.href = 'talleres.html';
+            }
         }
     </script>
 </body>

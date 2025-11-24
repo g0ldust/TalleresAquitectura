@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Reserva de Espacios - Instructor</title>
+    <link rel="stylesheet" href="Style.css">
+    <style>
+        /* Estilos específicos para las imágenes de las salas */
+        .room-image {
+            height: 160px;
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: rgba(255,255,255,0.9);
+            position: relative;
+        }
+
+        /* Colores para diferenciar tipos de sala (simulando fotos) */
+        .bg-sala { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); }
+        .bg-cancha { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); }
+        .bg-piscina { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); }
+        .bg-lab { background: linear-gradient(135deg, #cfd9df 0%, #e2ebf0 100%); color: #555; }
+
+        .tag-horario {
+            display: inline-block;
+            background: #e6fffa;
+            color: #047481;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+            border: 1px solid #b7f5ea;
+        }
+
+        .back-nav { margin-top: 20px; display: block; text-align: center; color: var(--muted); text-decoration: none; }
+        .back-nav:hover { color: var(--accent); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container top">
+            <h1>Reserva de Espacios</h1>
+            <nav aria-label="Principal">
+                <span style="color:white; font-weight:600;">Panel de Instructor</span>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="info">
+                <h2 id="hero-title">Gestiona tus clases</h2>
+                <p class="muted">Selecciona el espacio adecuado para realizar tu taller. Recuerda reservar con al menos 24 horas de anticipación.</p>
+            </div>
+        </section>
+
+        <section style="margin-top: 30px;">
+            <h2 style="margin-bottom: 20px;">Espacios Disponibles</h2>
+            
+            <div class="grid" role="list">
+                
+                <article class="card" role="listitem">
+                    <div class="room-image bg-sala">🏫</div>
+                    <h3>Sala Multiuso A</h3>
+                    <p class="muted">Capacidad: 25 personas. Incluye proyector, pizarra y sillas móviles.</p>
+                    <div class="tag-horario">🕒 Disp: Lun-Vie 09:00 - 18:00</div>
+                    <div style="margin-top: 16px;">
+                        <button onclick="reservar('Sala Multiuso A')">Reservar sala</button>
+                    </div>
+                </article>
+
+                <article class="card" role="listitem">
+                    <div class="room-image bg-cancha">⚽</div>
+                    <h3>Cancha Techada</h3>
+                    <p class="muted">Multicancha con iluminación LED. Apta para fútbol sala, básquetbol y vóleibol.</p>
+                    <div class="tag-horario">🕒 Disp: Lun-Dom 08:00 - 22:00</div>
+                    <div style="margin-top: 16px;">
+                        <button onclick="reservar('Cancha Techada')">Reservar cancha</button>
+                    </div>
+                </article>
+
+                <article class="card" role="listitem">
+                    <div class="room-image bg-piscina">🏊</div>
+                    <h3>Piscina Semiolímpica</h3>
+                    <p class="muted">Piscina temperada de 25 metros. Disponibilidad de 2 carriles para talleres.</p>
+                    <div class="tag-horario">🕒 Disp: Mar-Sáb 07:00 - 12:00</div>
+                    <div style="margin-top: 16px;">
+                        <button onclick="reservar('Piscina Semiolímpica')">Reservar piscina</button>
+                    </div>
+                </article>
+
+                <article class="card" role="listitem">
+                    <div class="room-image bg-lab">💻</div>
+                    <h3>Lab. Computación</h3>
+                    <p class="muted">15 equipos de alto rendimiento. Ideal para talleres de diseño o programación.</p>
+                    <div class="tag-horario">🕒 Disp: Lun-Vie 14:00 - 19:00</div>
+                    <div style="margin-top: 16px;">
+                        <button onclick="reservar('Lab. Computación')">Reservar laboratorio</button>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <a href="usuarioIngresado.html" class="back-nav">← Volver al inicio</a>
+
+        <footer>
+            <small>Sistema de Reservas — Talleres Arquitectura</small>
+        </footer>
+    </main>
+
+    <script>
+        function reservar(nombreEspacio) {
+            // Simulamos el flujo de reserva
+            const fecha = prompt(`Estás reservando: ${nombreEspacio}.\n\nPor favor, ingresa la FECHA y HORA deseada (ej. 12/12 a las 10:00):`);
+            
+            if (fecha && fecha.trim() !== "") {
+                alert(`¡Solicitud enviada!\n\nHas solicitado la ${nombreEspacio} para el ${fecha}.\nRecibirás la confirmación en tu correo de instructor.`);
+            } else {
+                // Si cancela o no escribe nada
+            }
+        }
+    </script>
+</body>
+</html>
