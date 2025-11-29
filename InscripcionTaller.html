@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Inscripción a Talleres</title>
+    <style>
+        :root{
+            --bg:#f6f8fb; --card:#ffffff; --accent:#0066cc; --muted:#6b7280;
+            --success:#0f9d58;
+            font-family: Inter, Roboto, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial;
+        }
+        body{
+            margin:0; background:var(--bg); color:#111827; display:flex; align-items:center; justify-content:center;
+            min-height:100vh; padding:24px;
+        }
+        .container{
+            width:100%; max-width:920px; background:var(--card); border-radius:12px; box-shadow:0 6px 24px rgba(15,23,42,0.08);
+            padding:28px; gap:20px; display:grid; grid-template-columns:1fr 380px;
+        }
+        h1{margin:0 0 8px 0; font-size:20px;}
+        p.lead{margin:0 0 16px 0; color:var(--muted); font-size:14px}
+        form{display:flex; flex-direction:column; gap:12px}
+        label{font-size:13px; color:#0f172a}
+        input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select, textarea, input[type="date"], input[type="time"]{
+            width:100%; padding:10px 12px; border:1px solid #e6e9ef; border-radius:8px; font-size:14px; background:white;
+            box-sizing:border-box;
+        }
+        textarea{min-height:86px; resize:vertical}
+        .row{display:flex; gap:12px}
+        .row .col{flex:1}
+        .actions{display:flex; gap:12px; align-items:center}
+        button.primary{
+            background:var(--accent); color:white; border:none; padding:10px 14px; border-radius:8px; cursor:pointer;
+        }
+        button.secondary{background:transparent; color:var(--accent); border:1px solid #dbeafe; padding:9px 12px; border-radius:8px; cursor:pointer}
+        small.muted{color:var(--muted)}
+        .sidebar{padding-left:12px; border-left:1px dashed #eef2ff}
+        .card{background:#fbfdff; padding:12px; border-radius:10px}
+        .list{margin-top:12px; max-height:260px; overflow:auto}
+        .item{border-bottom:1px solid #eef2ff; padding:8px 0; font-size:13px}
+        .success{background:rgba(15,157,88,0.08); color:var(--success); padding:8px 10px; border-radius:8px; display:inline-block}
+        .note{font-size:12px; color:var(--muted)}
+        @media(max-width:880px){
+            .container{grid-template-columns:1fr; padding:18px}
+            .sidebar{padding-left:0; border-left:0; margin-top:6px}
+        }
+    </style>
+</head>
+<body>
+    <main class="container" role="main">
+        <section>
+            <h1>Inscribirse a un taller</h1>
+            <p class="lead">Rellena el formulario para reservar tu plaza. Los datos se guardarán localmente en tu navegador.</p>
+
+            <form id="inscripcionForm" autocomplete="off" novalidate>
+                <div class="row">
+                    <div class="col">
+                        <label for="nombre">Nombre completo</label>
+                        <input id="nombre" name="nombre" type="text" placeholder="Ej. Ana Pérez" required />
+                    </div>
+                    <div class="col">
+                        <label for="telefono">Teléfono</label>
+                        <input id="telefono" name="telefono" type="tel" placeholder="+569999333222" pattern="^\+?[\d\s\-]{6,}$" />
+                    </div>
+                </div>
+
+                <label for="email">Correo electrónico</label>
+                <input id="email" name="email" type="email" placeholder="correo@ejemplo.com" required />
+
+                <label for="taller">Selecciona taller</label>
+                <select id="taller" name="taller" required>
+                    <option value="">— Elige un taller —</option>
+                    <option value="Arquitectura sostenible">Arquitectura sostenible</option>
+                    <option value="Cocina francesa">Cocina francesa</option>
+                    <option value="natacion">natacion</option>
+                    <option value="Instalaciones y eficiencia">Instalaciones y eficiencia</option>
+                </select>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="fecha">Fecha</label>
+                        <input id="fecha" name="fecha" type="date" required />
+                    </div>
+                    <div class="col">
+                        <label for="hora">Hora</label>
+                        <input id="hora" name="hora" type="time" required />
+                    </div>
+                </div>
+
+                <label for="personas">Número de participantes</label>
+                <input id="personas" name="personas" type="number" min="1" max="10" value="1" required />
+
+                <label for="comentarios">Comentarios (opcional)</label>
+                <textarea id="comentarios" name="comentarios" placeholder="Necesidades especiales, observaciones..."></textarea>
+
+                <div style="display:flex;align-items:center;gap:10px">
+                    <input id="terminos" name="terminos" type="checkbox" required />
+                    <label for="terminos" class="note">Acepto el tratamiento de datos y las condiciones del taller</label>
+                </div>
+
+                <div class="actions">
+                    <button type="submit" class="primary">Enviar inscripción</button>
+                    <button type="button" id="limpiarBtn" class="secondary">Limpiar</button>
+                    <small class="muted" id="status" aria-live="polite"></small>
+                </div>
+            </form>
+        </section>
+
+        <aside class="sidebar" aria-label="Panel de inscripciones">
+            <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                    <strong>Inscripciones guardadas</strong>
+                    <div style="display:flex;gap:8px">
+                        <button id="exportBtn" type="button" class="secondary">Exportar CSV</button>
+                        <button id="borrarBtn" type="button" class="secondary">Borrar todo</button>
+                    </div>
+                </div>
+
+                <div class="list" id="listaInscripciones" aria-live="polite"></div>
+
+                <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center;gap:8px">
+                    <a href="talleres.html" class="secondary" role="button" style="text-decoration:none">Volver a talleres</a>
+                    <small class="note">Tus inscripciones se guardan localmente</small>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <script>
+        // GitHub Copilot
+        (function(){
+            const form = document.getElementById('inscripcionForm');
+            const lista = document.getElementById('listaInscripciones');
+            const status = document.getElementById('status');
+            const limpiarBtn = document.getElementById('limpiarBtn');
+            const exportBtn = document.getElementById('exportBtn');
+            const borrarBtn = document.getElementById('borrarBtn');
+            const STORAGE_KEY = 'inscripciones_talleres_v1';
+
+            function readStored(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e){ return []; } }
+            function saveStored(data){ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+
+            function renderList(){
+                const items = readStored();
+                if(!items.length){
+                    lista.innerHTML = '<div class="item"><small class="note">No hay inscripciones todavía.</small></div>';
+                    return;
+                }
+                lista.innerHTML = items.slice().reverse().map((it, i) => {
+                    const t = new Date(it.createdAt).toLocaleString();
+                    const personas = it.personas || 1;
+                    return '<div class="item"><strong>' + escapeHTML(it.nombre) + '</strong> — <small class="note">' + escapeHTML(it.taller) +
+                        '</small><div style="font-size:12px;color:var(--muted)">'+ escapeHTML(it.email) + ' • ' + escapeHTML(it.telefono||'') +
+                        ' • ' + personas + ' persona(s) • ' + escapeHTML(it.fecha) + ' ' + escapeHTML(it.hora) +
+                        ' <div style="color:var(--muted);font-size:11px;margin-top:6px">Registrado: '+ t +'</div></div></div>';
+                }).join('');
+            }
+
+            function escapeHTML(s){ return String(s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[m]); }
+
+            form.addEventListener('submit', function(e){
+                e.preventDefault();
+                if(!form.checkValidity()){
+                    form.reportValidity();
+                    return;
+                }
+                const data = {
+                    nombre: form.nombre.value.trim(),
+                    email: form.email.value.trim(),
+                    telefono: form.telefono.value.trim(),
+                    taller: form.taller.value,
+                    fecha: form.fecha.value,
+                    hora: form.hora.value,
+                    personas: form.personas.value,
+                    comentarios: form.comentarios.value.trim(),
+                    createdAt: new Date().toISOString()
+                };
+                const stored = readStored();
+                stored.push(data);
+                saveStored(stored);
+                renderList();
+                status.textContent = 'Inscripción guardada';
+                status.className = 'success';
+                setTimeout(()=>{ status.textContent=''; status.className=''; }, 3500);
+                form.reset();
+                form.personas.value = 1;
+            });
+
+            limpiarBtn.addEventListener('click', function(){ form.reset(); form.personas.value = 1; });
+
+            exportBtn.addEventListener('click', function(){
+                const items = readStored();
+                if(!items.length){ alert('No hay inscripciones para exportar.'); return; }
+                const header = ['Nombre','Email','Teléfono','Taller','Fecha','Hora','Personas','Comentarios','Registrado'];
+                const csv = [header.join(',')].concat(items.map(it => {
+                    return [
+                        it.nombre, it.email, it.telefono, it.taller, it.fecha, it.hora, it.personas, (it.comentarios||''), it.createdAt
+                    ].map(cell => '"' + String(cell||'').replace(/"/g,'""') + '"').join(',');
+                })).join('\r\n');
+                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'inscripciones_talleres.csv';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                URL.revokeObjectURL(url);
+            });
+
+            borrarBtn.addEventListener('click', function(){
+                if(!confirm('¿Borrar todas las inscripciones guardadas? Esta acción no se puede deshacer.')) return;
+                localStorage.removeItem(STORAGE_KEY);
+                renderList();
+            });
+
+            // inicializa
+            renderList();
+        })();
+    </script>
+</body>
+</html>
