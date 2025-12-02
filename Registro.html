@@ -29,9 +29,9 @@
 
     <main class="card" aria-labelledby="title">
         <h1 id="title">Formulario de registro - Taller</h1>
-        <form id="registroForm" action="#" method="post" novalidate>
+        <form id="registroForm" novalidate>
             <label for="nombre">Nombre completo</label>
-            <input id="nombre" name="nombre" type="text" required minlength="3" placeholder="Ej. Alma Marcela Pinto" autocomplete="name" />
+            <input id="nombre" name="nombre" type="text" required minlength="3" placeholder="Ej. Alma Pinto" autocomplete="name" />
 
             <div class="row">
                 <div>
@@ -62,7 +62,7 @@
             <textarea id="direccion" name="direccion" rows="3" required placeholder="Calle, número, ciudad, código postal"></textarea>
 
             <div class="controls">
-                <button class="btn" type="submit" formaction    ="talleres.html">Registrarse</button>
+                <button class="btn" type="submit">Registrarse</button>
                 <div id="msg" class="muted" role="status" aria-live="polite"></div>
             </div>
 
@@ -106,9 +106,79 @@
         }
         pwd.addEventListener('input', updateMeter);
 
-        
+        // Manejar envío del formulario sin POST
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            error.hidden = true;
 
-        
+            // Recolectar datos del formulario
+            const formData = {
+                nombre: document.getElementById('nombre').value.trim(),
+                edad: parseInt(document.getElementById('edad').value),
+                telefono: document.getElementById('telefono').value.trim(),
+                rut: document.getElementById('RUT').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                password: pwd.value,
+                direccion: document.getElementById('direccion').value.trim()
+            };
+
+            // Validación básica
+            if (!formData.nombre || formData.nombre.length < 3) {
+                showError('El nombre debe tener al menos 3 caracteres.');
+                return;
+            }
+            if (formData.edad < 60 || formData.edad > 125) {
+                showError('La edad debe estar entre 60 y 125 años.');
+                return;
+            }
+            if (!formData.telefono || formData.telefono.length < 7) {
+                showError('Teléfono inválido.');
+                return;
+            }
+            if (!formData.rut) {
+                showError('RUT es requerido.');
+                return;
+            }
+            if (!formData.email || !formData.email.includes('@')) {
+                showError('Email inválido.');
+                return;
+            }
+            if (formData.password.length < 8) {
+                showError('La contraseña debe tener al menos 8 caracteres.');
+                return;
+            }
+            if (!formData.direccion) {
+                showError('Dirección es requerida.');
+                return;
+            }
+
+            // Guardar registro en localStorage
+            try {
+                let registros = JSON.parse(localStorage.getItem('registros')) || [];
+                registros.push({ ...formData, registradoEn: new Date().toISOString() });
+                localStorage.setItem('registros', JSON.stringify(registros));
+
+                // Guardar datos del usuario actual para pre-llenar login
+                localStorage.setItem('usuarioActual', JSON.stringify({
+                    email: formData.email,
+                    password: formData.password,
+                    nombre: formData.nombre
+                }));
+
+                msg.textContent = '¡Registro exitoso! Redirigiendo...';
+                setTimeout(() => {
+                    window.location.href = 'Login.html';
+                }, 1500);
+            } catch (err) {
+                showError('Error al guardar el registro. Intenta nuevamente.');
+            }
+        });
+
+        function showError(text) {
+            error.textContent = text;
+            error.hidden = false;
+        }
+
         updateMeter();
     </script>
 </body>
