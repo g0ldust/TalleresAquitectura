@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Taller</title>
+    <link rel="stylesheet" href="Style.css">
+    <style>
+        /* Ajustes pequeños para centrar la tarjeta igual que en Login/Registro */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card {
+            width: 100%;
+            max-width: 600px; /* Ancho máximo para que no se estire demasiado */
+            margin: 0 auto;
+        }
+        /* Estilo para el botón secundario (Limpiar) ya que Style.css solo define uno principal */
+        .btn-secondary {
+            background: transparent !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #64748b !important;
+        }
+        .btn-secondary:hover {
+            background: #f1f5f9 !important;
+        }
+    </style>
+</head>
+<body>
+
+    <main class="card">
+        <h1>Crear Nuevo Taller</h1>
+        
+        <form id="formTaller">
+            
+            <label for="nombre">Nombre del Taller</label>
+            <input type="text" id="nombre" name="nombre" required placeholder="Ej: Cerámica Avanzada">
+
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" name="descripcion" rows="4" required placeholder="Describe de qué trata el taller..."></textarea>
+
+            <div class="row">
+                <div class="col">
+                    <label for="horarios">Horarios</label>
+                    <input type="text" id="horarios" name="horarios" placeholder="Ej: Lu-Mi 10:00" required>
+                </div>
+                <div class="col">
+                    <label for="salas">Salas</label>
+                    <input type="text" id="salas" name="salas" placeholder="Ej: Sala A" required>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <button type="submit">Crear Taller</button>
+                <button type="reset" class="btn-secondary">Limpiar</button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        document.getElementById('formTaller').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Aquí agregar lógica para guardar el taller
+            alert('Taller creado exitosamente');
+            // Opcional: Redirigir al inicio
+            // window.location.href = 'talleres.html';
+        });
+    </script>
+</body>
+</html>
