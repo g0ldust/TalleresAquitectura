@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Si ya tienes un styles.css general, enlázalo aquí -->
+    <link rel="stylesheet" href="Style.css">
+
+    <!-- Estilos específicos de la página de contacto (opcionales) -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #1f4e79;
+            color: white;
+            padding: 15px 20px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        h2 {
+            color: #1f4e79;
+        }
+
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .contact-form {
+            flex: 1 1 300px;
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .contact-form label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .contact-form input,
+        .contact-form textarea,
+        .contact-form select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .contact-form button {
+            margin-top: 15px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: #1f4e79;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .contact-form button:hover {
+            background-color: #163754;
+        }
+
+        .contact-info {
+            flex: 1 1 250px;
+        }
+
+        .mensaje-estado {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .mensaje-estado.ok {
+            color: green;
+        }
+
+        .mensaje-estado.error {
+            color: red;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            padding: 15px;
+            background-color: #eee;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Talleres en puente alto</h1>
+        <nav>
+            <!-- Ajusta estos enlaces según las páginas que ya tengas -->
+            <a href="talleres.html">Inicio</a>
+            
+            <a href="contacto.html"><strong>Contacto</strong></a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Contacto</h2>
+        <p>Si tienes alguna duda o consulta, completa el siguiente formulario:</p>
+
+        <div class="contact-container">
+            <!-- FORMULARIO -->
+            <section class="contact-form">
+                <form id="formContacto">
+                    <label for="nombre">Nombre completo</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" name="email" placeholder="tucorreo@ejemplo.com" required>
+
+                    <label for="tipo">Motivo de contacto</label>
+                    <select id="tipo" name="tipo" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="consulta">Consulta</option>
+                        <option value="soporte">Soporte</option>
+                        <option value="sugerencia">Sugerencia</option>
+                    </select>
+
+                    <label for="mensaje">Mensaje</label>
+                    <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
+
+                    <button type="submit">Enviar</button>
+
+                    <!-- Mensaje de estado (éxito / error) -->
+                    <div id="mensajeEstado" class="mensaje-estado"></div>
+                </form>
+            </section>
+
+            <!-- INFORMACIÓN DE CONTACTO -->
+            <aside class="contact-info">
+                <h3>Información de contacto</h3>
+                <p><strong>Teléfono:</strong> +56 9 1234 5678</p>
+                <p><strong>Correo:</strong> contacto@misitio.com</p>
+                <p><strong>Dirección:</strong> Calle Falsa 123, Santiago, Chile</p>
+
+                <h3>Horario de atención</h3>
+                <p>Lunes a Viernes: 09:00 - 18:00</p>
